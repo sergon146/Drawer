@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Painter</string>
+    <string name="line">Отрезок</string>
+    <string name="trinagles">Треугольник</string>
+    <string name="circle">Круг</string>
+    <string name="square">Прямоугольник</string>
+
+    <string name="message">Line Chart View</string>
+    <string name="action_settings">Settings</string>
+</resources>
