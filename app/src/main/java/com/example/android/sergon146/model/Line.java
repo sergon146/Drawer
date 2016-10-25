@@ -3,6 +3,8 @@ package com.example.android.sergon146.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.example.android.sergon146.util.Const;
+
 /**
  * Created by Sergon146 on 017 17.10.16.
  */
@@ -10,10 +12,12 @@ import android.graphics.Paint;
 public class Line implements Drawable {
     private Point p1;
     private Point p2;
+    private boolean choose;
 
     public Line(Point p1, Point p2) {
         this.p1 = p1;
         this.p2 = p2;
+        choose = false;
     }
 
     public Line(double maxX, double maxY) {
@@ -38,6 +42,76 @@ public class Line implements Drawable {
     }
 
 
+    public boolean isChoose() {
+        return choose;
+    }
+
+    @Override
+    public void globalScale(boolean zoom) {
+        double scale = Const.scale;
+
+        if (zoom)
+            scaleAll(scale);
+        else
+            scaleAll(-scale);
+
+    }
+
+    @Override
+    public void globalRotate(boolean rotate) {
+        double angle = Const.angle;
+
+        if (rotate)
+            rotateAll(angle);
+        else
+            rotateAll(-angle);
+
+    }
+
+    public void scaleAll(double scale) {
+        p1.scale(scale);
+        p2.scale(scale);
+    }
+
+    public void rotateAll(double angle) {
+        p1.rotate(angle);
+        p2.rotate(angle);
+    }
+
+    @Override
+    public void localSacle(boolean zoom) {
+        double posX = (p1.getX()+p2.getX())/2;
+        double posY = (p1.getY()+p2.getY())/2;
+        p1.shift(-posX, -posY);
+        p2.shift(-posX, -posY);
+        if (zoom)
+            scaleAll(Const.scale);
+        else
+            scaleAll(-Const.scale);
+        p1.shift(posX, posY);
+        p2.shift(posX, posY);
+
+    }
+
+    @Override
+    public void localRotate(boolean rotate) {
+        double posX = (p1.getX()+p2.getX())/2;
+        double posY = (p1.getY()+p2.getY())/2;
+        p1.shift(-posX, -posY);
+        p2.shift(-posX, -posY);
+        if (rotate)
+            rotateAll(Const.angle);
+        else
+            rotateAll(-Const.angle);
+        p1.shift(posX, posY);
+        p2.shift(posX, posY);
+    }
+
+    public void setChoose(boolean choose) {
+        this.choose = choose;
+    }
+
+
     @Override
     public void draw(Canvas canvas, Paint p) {
         canvas.drawLine(getP1().getX(), getP1().getY(), getP2().getX(), getP2().getY(), p);
@@ -49,19 +123,25 @@ public class Line implements Drawable {
 
         float a = (p2.getX() - p1.getX()) * (p2.getX() - p1.getX()) + (p2.getY() - p1.getY()) * (p2.getY() - p1.getY());
         float b = 2 * ((p2.getX() - p1.getX()) * (p1.getX() - touch.getX()) + (p2.getY() - p1.getY()) * (p1.getY() - touch.getY()));
-        float c = touch.getX() * touch.getX()  + touch.getY() * touch.getY() + p1.getX() * p1.getX()
+        float c = touch.getX() * touch.getX() + touch.getY() * touch.getY() + p1.getX() * p1.getX()
                 + p1.getY() * p1.getY() - 2 * (touch.getX() * p1.getX() + touch.getY() * p1.getY()) - rad * rad;
 
-        if ( - b < 0)
-        {
+        if (-b < 0) {
             return (c < 0);
         }
 
-        if ( - b < (2 * a))
-        {
+        if (-b < (2 * a)) {
             return (4 * a * c - b * b < 0);
         }
 
         return (a + b + c < 0);
     }
+
+    @Override
+    public void shift(Point delta) {
+        p1.shift(delta.getX(), delta.getY());
+        p2.shift(delta.getX(), delta.getY());
+    }
+
+
 }

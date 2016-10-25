@@ -1,16 +1,18 @@
 package com.example.android.sergon146.activity;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.ViewGroup.LayoutParams;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.android.sergon146.LineChartView;
 import com.example.android.sergon146.R;
@@ -30,21 +32,22 @@ public class MainActivity extends ActionBarActivity {
     List<Drawable> list;
     int w, h;
     LineChartView lineChart;
-    Boolean touchFlag = false;
-    LayoutParams imageParams;
+    ToggleButton tgBut, local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         context = this;
         list = new ArrayList<Drawable>();
         lineChart = (LineChartView) findViewById(R.id.linechart);
         lineChart.setList(list);
 
+
+        tgBut = (ToggleButton) findViewById(R.id.zoom);
+        local = (ToggleButton) findViewById(R.id.local);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -52,13 +55,8 @@ public class MainActivity extends ActionBarActivity {
         w = size.x;
         h = size.y - 350;
 
-        lineChart.setChartData(getRandomData());
-
     }
 
-    private float[] getRandomData() {
-        return new float[]{10, 12, 7, 14, 15, 19, 13, 2, 10, 13, 13, 10, 15, 14};
-    }
 
     public void onClick(View view) {
         switch (view.getId()) {
@@ -67,17 +65,34 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case R.id.undo:
-                Toast.makeText(context,
-                        "Последний фрагмент удалён",
+                if (list.size() > 0) {
+                    list.remove(list.size() - 1);
+                    Toast.makeText(context,
+                            "Последний фрагмент удалён",
+                            Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(context,
+                        "Лист чист!",
                         Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.delete:
-                Toast.makeText(context,
-                        "Выбранный фрагмент удалён",
+                if (list.size() > 0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).isChoose())
+                            list.remove(i);
+                    }
+                    Toast.makeText(context,
+                            "Выбранный фрагмент удалён",
+                            Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(context,
+                        "Лист чист!",
                         Toast.LENGTH_SHORT).show();
                 break;
+            default:
+                break;
         }
+        lineChart.invalidate();
+
     }
 
     private void showPopupMenu(View v) {
@@ -141,6 +156,64 @@ public class MainActivity extends ActionBarActivity {
 
     public List<Drawable> getList() {
         return list;
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (!tgBut.isChecked()) {
+                    System.out.println("zoom +");
+                    for (Drawable d : list) {
+                        if (d.isChoose()) {
+                            if (local.isChecked())
+                                d.globalScale(true);
+                            else
+                                d.localSacle(true);
+                        }
+                    }
+                } else {
+                    for (Drawable d : list) {
+                        if (d.isChoose()) {
+                            if (local.isChecked())
+                                d.globalRotate(true);
+                            else
+                                d.localRotate(true);
+                        }
+                    }
+                }
+
+                lineChart.invalidate();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (!tgBut.isChecked()) {
+                    System.out.println("zoom +");
+                    for (Drawable d : list) {
+                        if (d.isChoose()) {
+                            if (local.isChecked())
+                                d.globalScale(false);
+                            else
+                                d.localSacle(false);
+                        }
+                    }
+                } else {
+                    for (Drawable d : list) {
+                        if (d.isChoose()) {
+                            if (local.isChecked())
+                                d.globalRotate(false);
+                            else
+                                d.localRotate(false);
+                        }
+                    }
+                }
+
+                lineChart.invalidate();
+                return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 

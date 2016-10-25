@@ -5,6 +5,11 @@
     <string name="circle">Круг</string>
     <string name="square">Прямоугольник</string>
 
+    <string name="zoom">Zoom</string>
+    <string name="scale">Rotate</string>
+    <string name="local">Local</string>
+    <string name="global">Global</string>
+
     <string name="message">Line Chart View</string>
     <string name="action_settings">Settings</string>
 </resources>

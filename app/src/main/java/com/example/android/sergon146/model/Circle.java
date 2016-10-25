@@ -3,6 +3,8 @@ package com.example.android.sergon146.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.example.android.sergon146.util.Const;
+
 /**
  * Created by sergon on 18.10.16.
  */
@@ -10,6 +12,7 @@ import android.graphics.Paint;
 public class Circle implements Drawable {
     private double r;
     private Point c;
+    private boolean choose;
 
     public Circle(Point c, double r) {
         c = this.c;
@@ -46,10 +49,62 @@ public class Circle implements Drawable {
 
     @Override
     public boolean isNearTouch(Point touch, float rad) {
-        if (getR() + rad >= (Math.sqrt(Math.pow(touch.getX() - getC().getX(), 2) + Math.pow(touch.getY() - getC().getY(), 2))))
-            return true;
-        else
-            return false;
+        return getR() + rad >= (Math.sqrt(Math.pow(touch.getX() - getC().getX(), 2) + Math.pow(touch.getY() - getC().getY(), 2)));
+    }
+
+    @Override
+    public void shift(Point delta) {
+        c.shift(delta.getX(), delta.getY());
+    }
+
+    public boolean isChoose() {
+        return choose;
+    }
+
+    @Override
+    public void globalScale(boolean zoom) {
+        double scale = Const.scale;
+
+        if (zoom) {
+            c.scale(scale);
+            r *= (1 + scale);
+        } else {
+            c.scale(-scale);
+            r *= (1 - scale);
+        }
+
+    }
+
+    @Override
+    public void globalRotate(boolean rotate) {
+        double angle = Const.angle;
+
+        if (rotate) {
+            c.rotate(angle);
+        } else {
+            c.rotate(-angle);
+        }
+
+    }
+
+    @Override
+    public void localSacle(boolean zoom) {
+        double scale = Const.scale;
+
+        if (zoom) {
+            r *= (1 + scale);
+        } else {
+            r *= (1 - scale);
+        }
+    }
+
+    @Override
+    public void localRotate(boolean rotate) {
+    //do nothing
+    }
+
+    public void setChoose(boolean choose) {
+        this.choose = choose;
     }
 
 

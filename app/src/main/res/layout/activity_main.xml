@@ -24,29 +24,43 @@
         android:background="@color/grey">
 
         <ImageButton
-            android:layout_width="59dp"
             android:layout_height="wrap_content"
             android:src="@drawable/draw"
             android:id="@+id/draw"
-            android:layout_weight="0.04"
-            android:contentDescription=""
-            android:onClick="onClick" />
+            android:onClick="onClick"
+            android:layout_weight="0.07"
+            android:layout_width="60dp" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="43dp"
             android:layout_height="wrap_content"
             android:src="@drawable/undo"
             android:id="@+id/undo"
-            android:layout_weight="0.04"
             android:onClick="onClick"/>
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="42dp"
             android:layout_height="wrap_content"
             android:src="@drawable/del"
             android:id="@+id/delete"
-            android:layout_weight="0.04"
             android:onClick="onClick"/>
+
+        <ToggleButton
+            android:layout_height="match_parent"
+            android:id="@+id/zoom"
+            android:textOff="@string/zoom"
+            android:textOn="@string/scale"
+            android:layout_width="85dp"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:layout_height="match_parent"
+            android:id="@+id/local"
+            android:textOff="@string/local"
+            android:textOn="@string/global"
+            android:layout_weight="0.10"
+            android:textSize="12sp"
+            android:layout_width="85dp" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.android.sergon146.model;
 
+
 /**
  * Created by Sergon146 on 017 17.10.16.
  */
@@ -32,6 +33,22 @@ public class Point {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public void scale(double scale) {
+        x *= (1 + scale);
+        y *= (1 + scale);
+    }
+
+    public void rotate(double angle) {
+
+        x = x * Math.cos(angle) + y * Math.sin(angle);
+        y = -x * Math.sin(angle) + y * Math.cos(angle);
+    }
+
+    public void shift(double x1, double y1) {
+        x += x1;
+        y += y1;
     }
 
 
