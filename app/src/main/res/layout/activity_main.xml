@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <com.example.android.sergon146.LineChartView
+    <com.sergon146.drawer.view.DrawView
         android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,8 +28,25 @@
             android:src="@drawable/draw"
             android:id="@+id/draw"
             android:onClick="onClick"
-            android:layout_weight="0.07"
-            android:layout_width="60dp" />
+            android:layout_width="wrap_content" />
+
+        <ToggleButton
+            android:layout_height="match_parent"
+            android:id="@+id/zoom"
+            android:textOff="@string/zoom"
+            android:textOn="@string/scale"
+            android:layout_width="85dp"
+            android:textSize="12sp"
+            android:layout_weight="0.58" />
+
+        <ToggleButton
+            android:layout_height="match_parent"
+            android:id="@+id/local"
+            android:textOff="@string/local"
+            android:textOn="@string/global"
+            android:textSize="12sp"
+            android:layout_width="85dp"
+            android:layout_weight="0.31" />
 
         <ImageButton
             android:layout_width="43dp"
@@ -43,24 +60,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/del"
             android:id="@+id/delete"
-            android:onClick="onClick"/>
-
-        <ToggleButton
-            android:layout_height="match_parent"
-            android:id="@+id/zoom"
-            android:textOff="@string/zoom"
-            android:textOn="@string/scale"
-            android:layout_width="85dp"
-            android:textSize="12sp" />
-
-        <ToggleButton
-            android:layout_height="match_parent"
-            android:id="@+id/local"
-            android:textOff="@string/local"
-            android:textOn="@string/global"
-            android:layout_weight="0.10"
-            android:textSize="12sp"
-            android:layout_width="85dp" />
+            android:onClick="onClick"
+            android:layout_gravity="right" />
 
     </LinearLayout>
 

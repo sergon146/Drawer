@@ -19,9 +19,7 @@ public class DrawView extends View {
     private Paint paint = new Paint();
     private List<Drawable> list;
 
-    public void setList(List<Drawable> list) {
-        this.list = list;
-    }
+
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -88,6 +86,13 @@ public class DrawView extends View {
 
     }
 
+    public List<Drawable> getList(){
+        return list;
+    }
+
+    public void setList(List<Drawable> list) {
+        this.list = list;
+    }
 
 
 

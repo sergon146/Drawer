@@ -54,6 +54,12 @@ public class Trinagle implements Drawable, Serializable {
 
     }
 
+    public Trinagle(Trinagle trinagle) {
+        p1 = new Point(trinagle.p1);
+        p2 = new Point(trinagle.p2);
+        p3 = new Point(trinagle.p3);
+    }
+
     @Override
     public void draw(Canvas canvas, Paint p) {
 
@@ -139,8 +145,8 @@ public class Trinagle implements Drawable, Serializable {
 
     @Override
     public void localSacle(boolean zoom) {
-        double posX = (p1.getX()+p2.getX())/2;
-        double posY = (p1.getY()+p2.getY())/2;
+        double posX = (p1.getX() + p2.getX()) / 2;
+        double posY = (p1.getY() + p2.getY()) / 2;
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);
@@ -156,8 +162,8 @@ public class Trinagle implements Drawable, Serializable {
 
     @Override
     public void localRotate(boolean rotate) {
-        double posX = (p1.getX()+p2.getX()+p3.getX())/3;
-        double posY = (p1.getY()+p2.getY()+p3.getY())/3;
+        double posX = (p1.getX() + p2.getX() + p3.getX()) / 3;
+        double posY = (p1.getY() + p2.getY() + p3.getY()) / 3;
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);

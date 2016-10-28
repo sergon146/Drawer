@@ -1,6 +1,43 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".activity.MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <group android:id="@+id/groupPlay">
+        <item
+            android:id="@+id/action_recordPlay"
+            android:icon="@drawable/show"
+            android:title="@string/recordShow"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/groupRec">
+        <item
+            android:id="@+id/action_recordStart"
+            android:icon="@drawable/record"
+            android:title="@string/recordStart"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group
+        android:id="@+id/groupInRec"
+        android:visible="false">
+
+        <item
+            android:id="@+id/action_recordClose"
+            android:icon="@drawable/close"
+            android:title="@string/saveCadre"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_saveCadre"
+            android:icon="@drawable/save"
+            android:title="@string/saveCadre"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_recordStop"
+            android:icon="@drawable/stop"
+            android:title="@string/recordStop"
+            app:showAsAction="ifRoom" />
+    </group>
+
 </menu>

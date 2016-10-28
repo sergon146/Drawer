@@ -26,6 +26,13 @@ public class Rectangle implements Drawable, Serializable {
         p4 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
     }
 
+    public Rectangle(Rectangle rect) {
+        p1 = new Point(rect.p1);
+        p2 = new Point(rect.p2);
+        p3 = new Point(rect.p3);
+        p4 = new Point(rect.p4);
+    }
+
 
     public Point getP1() {
         return p1;
@@ -42,6 +49,7 @@ public class Rectangle implements Drawable, Serializable {
     public void setP2(Point p2) {
         this.p2 = p2;
     }
+
     public Point getP3() {
         return p3;
     }
@@ -67,19 +75,17 @@ public class Rectangle implements Drawable, Serializable {
         canvas.drawLine(getP4().getX(), getP4().getY(), getP1().getX(), getP1().getY(), p);
     }
 
-    private boolean isTouchNearLine(Point touch, float rad, Point p1, Point p2){
+    private boolean isTouchNearLine(Point touch, float rad, Point p1, Point p2) {
         float a = (p2.getX() - p1.getX()) * (p2.getX() - p1.getX()) + (p2.getY() - p1.getY()) * (p2.getY() - p1.getY());
         float b = 2 * ((p2.getX() - p1.getX()) * (p1.getX() - touch.getX()) + (p2.getY() - p1.getY()) * (p1.getY() - touch.getY()));
-        float c = touch.getX() * touch.getX()  + touch.getY() * touch.getY() + p1.getX() * p1.getX()
+        float c = touch.getX() * touch.getX() + touch.getY() * touch.getY() + p1.getX() * p1.getX()
                 + p1.getY() * p1.getY() - 2 * (touch.getX() * p1.getX() + touch.getY() * p1.getY()) - rad * rad;
 
-        if ( - b < 0)
-        {
+        if (-b < 0) {
             return (c < 0);
         }
 
-        if ( - b < (2 * a))
-        {
+        if (-b < (2 * a)) {
             return (4 * a * c - b * b < 0);
         }
 
@@ -147,8 +153,8 @@ public class Rectangle implements Drawable, Serializable {
 
     @Override
     public void localSacle(boolean zoom) {
-        double posX = (p1.getX()+p2.getX())/2;
-        double posY = (p1.getY()+p2.getY())/2;
+        double posX = (p1.getX() + p2.getX()) / 2;
+        double posY = (p1.getY() + p2.getY()) / 2;
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);
@@ -167,8 +173,8 @@ public class Rectangle implements Drawable, Serializable {
     @Override
     public void localRotate(boolean rotate) {
 
-        double posX = (p1.getX()+p2.getX()+p3.getX()+p4.getX())/4;
-        double posY = (p1.getY()+p2.getY()+p3.getY()+p4.getY())/4;
+        double posX = (p1.getX() + p2.getX() + p3.getX() + p4.getX()) / 4;
+        double posY = (p1.getY() + p2.getY() + p3.getY() + p4.getY()) / 4;
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);

@@ -19,8 +19,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.sergon146.drawer.LineChartView;
-import com.sergon146.R;
+import com.sergon146.drawer.view.DrawView;
+import com.sergon146.drawer.R;
 import com.sergon146.drawer.model.Circle;
 import com.sergon146.drawer.model.Drawable;
 import com.sergon146.drawer.model.Line;
@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     Context context;
     List<Drawable> list;
     int w, h;
-    LineChartView lineChart;
+    DrawView lineChart;
     ToggleButton tgBut, local;
     Menu topmenu;
     int countCadre;
@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         context = this;
         list = new ArrayList<>();
-        lineChart = (LineChartView) findViewById(R.id.linechart);
+        lineChart = (DrawView) findViewById(R.id.linechart);
         lineChart.setList(list);
 
 
@@ -95,8 +95,22 @@ public class MainActivity extends ActionBarActivity {
 
                 break;
             case (R.id.action_saveCadre):
-                //TODO добавление текущего листа в коллекцию
-                record.addList(list);
+                List<Drawable> newList = new ArrayList<>(lineChart.getList());
+                for (int i = 0; i < newList.size(); i++) {
+                    if (newList.get(i) instanceof Line)
+                        newList.set(i, new Line((Line) newList.get(i)));
+                    else if (newList.get(i) instanceof Circle)
+                        newList.set(i, new Circle((Circle) newList.get(i)));
+                    else if (newList.get(i) instanceof Trinagle)
+                        newList.set(i, new Trinagle((Trinagle) newList.get(i)));
+                    else if (newList.get(i) instanceof Rectangle)
+                        newList.set(i, new Rectangle((Rectangle) newList.get(i)));
+                }
+                for (Drawable d : newList) {
+                    d.setChoose(false);
+                }
+
+                record.addList(new ArrayList<>(newList));
                 countCadre++;
                 if (countCadre < 2) {
                     recordNA = (ActionMenuItemView) findViewById(R.id.action_recordStop);
@@ -110,7 +124,6 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case (R.id.action_recordStop):
-                //TODO сохранение колеции листов в файл
                 topmenu.setGroupVisible(R.id.groupRec, true);
                 topmenu.setGroupVisible(R.id.groupInRec, false);
                 topmenu.setGroupVisible(R.id.groupPlay, true);
@@ -121,14 +134,14 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case (R.id.action_recordClose):
-                //TODO удалить коллекцию листов
+                record.clear();
                 topmenu.setGroupVisible(R.id.groupRec, true);
                 topmenu.setGroupVisible(R.id.groupInRec, false);
                 topmenu.setGroupVisible(R.id.groupPlay, true);
                 break;
 
             case (R.id.action_recordPlay):
-                intent = new Intent(this, ShowActivity.class);
+                intent = new Intent(this, ChooseActivity.class);
                 startActivity(intent);
                 break;
         }

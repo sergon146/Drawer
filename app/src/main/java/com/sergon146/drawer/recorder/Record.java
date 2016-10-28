@@ -10,7 +10,7 @@ import java.util.List;
  * Created by sergon on 27.10.16.
  */
 
-public class Record implements Serializable{
+public class Record implements Serializable {
     private List<List<Drawable>> record;
     private int id;
 
@@ -23,19 +23,32 @@ public class Record implements Serializable{
         record.add(list);
     }
 
-    public void nextList() {
+    public int nextList() {
         if (id == record.size() - 1)
             id = 0;
         else id++;
+        return id;
     }
 
-    public void prevList() {
+    public int prevList() {
         if (id == 0)
             id = record.size() - 1;
         else id--;
+        return id;
     }
 
-    public List<Drawable> getList(){
+    public int getId() {
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public List<Drawable> getList(int id) {
         return record.get(id);
+    }
+
+    public void clear() {
+        record.clear();
     }
 }

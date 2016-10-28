@@ -21,6 +21,11 @@ public class Circle implements Drawable, Serializable {
         r = this.r;
     }
 
+    public Circle(Circle circle){
+        c = new Point(circle.c);
+        r = circle.r;
+    }
+
     public Circle(int maxX, int maxY) {
         r = 10 + (Math.random() * 60);
         c = new Point(10 + r + (Math.random() * (maxX - r - 10)), 190 + r + (Math.random() * (maxY - 190 - r - 10)));

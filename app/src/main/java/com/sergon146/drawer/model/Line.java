@@ -22,6 +22,11 @@ public class Line implements Drawable, Serializable {
         choose = false;
     }
 
+    public Line(Line line){
+        p1 = new Point(line.p1);
+        p2 = new Point(line.p2);
+    }
+
     public Line(double maxX, double maxY) {
         p1 = new Point(Math.random() * maxX, (Math.random() * (maxY)));
         p2 = new Point(Math.random() * maxX, (Math.random() * (maxY)));
