@@ -1,29 +1,21 @@
-package com.example.android.sergon146.model;
+package com.sergon146.drawer.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.example.android.sergon146.util.Const;
+import com.sergon146.drawer.util.Const;
+
+import java.io.Serializable;
 
 /**
  * Created by sergon on 18.10.16.
  */
 
-public class Rectangle implements Drawable {
+public class Trinagle implements Drawable, Serializable {
     private Point p1;
     private Point p2;
     private Point p3;
-    private Point p4;
     private boolean choose;
-
-
-    public Rectangle(int maxX, int maxY) {
-        p1 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-        p3 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-        p2 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-        p4 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-    }
-
 
     public Point getP1() {
         return p1;
@@ -40,6 +32,7 @@ public class Rectangle implements Drawable {
     public void setP2(Point p2) {
         this.p2 = p2;
     }
+
     public Point getP3() {
         return p3;
     }
@@ -48,12 +41,17 @@ public class Rectangle implements Drawable {
         this.p3 = p3;
     }
 
-    public Point getP4() {
-        return p4;
+    public Trinagle(Point p1, Point p2, Point p3) {
+        p1 = this.p1;
+        p2 = this.p2;
+        p3 = this.p3;
     }
 
-    public void setP4(Point p4) {
-        this.p4 = p4;
+    public Trinagle(int maxX, int maxY) {
+        p1 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+        p2 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+        p3 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+
     }
 
     @Override
@@ -61,23 +59,20 @@ public class Rectangle implements Drawable {
 
         canvas.drawLine(getP1().getX(), getP1().getY(), getP2().getX(), getP2().getY(), p);
         canvas.drawLine(getP2().getX(), getP2().getY(), getP3().getX(), getP3().getY(), p);
-        canvas.drawLine(getP3().getX(), getP3().getY(), getP4().getX(), getP4().getY(), p);
-        canvas.drawLine(getP4().getX(), getP4().getY(), getP1().getX(), getP1().getY(), p);
+        canvas.drawLine(getP3().getX(), getP3().getY(), getP1().getX(), getP1().getY(), p);
     }
 
-    private boolean isTouchNearLine(Point touch, float rad, Point p1, Point p2){
+    private boolean isTouchNearLine(Point touch, float rad, Point p1, Point p2) {
         float a = (p2.getX() - p1.getX()) * (p2.getX() - p1.getX()) + (p2.getY() - p1.getY()) * (p2.getY() - p1.getY());
         float b = 2 * ((p2.getX() - p1.getX()) * (p1.getX() - touch.getX()) + (p2.getY() - p1.getY()) * (p1.getY() - touch.getY()));
-        float c = touch.getX() * touch.getX()  + touch.getY() * touch.getY() + p1.getX() * p1.getX()
+        float c = touch.getX() * touch.getX() + touch.getY() * touch.getY() + p1.getX() * p1.getX()
                 + p1.getY() * p1.getY() - 2 * (touch.getX() * p1.getX() + touch.getY() * p1.getY()) - rad * rad;
 
-        if ( - b < 0)
-        {
+        if (-b < 0) {
             return (c < 0);
         }
 
-        if ( - b < (2 * a))
-        {
+        if (-b < (2 * a)) {
             return (4 * a * c - b * b < 0);
         }
 
@@ -90,9 +85,9 @@ public class Rectangle implements Drawable {
             return true;
         else if (isTouchNearLine(touch, rad, getP2(), getP3()))
             return true;
-        else if (isTouchNearLine(touch, rad, getP3(), getP4()))
+        else if (isTouchNearLine(touch, rad, getP3(), getP1()))
             return true;
-        else return isTouchNearLine(touch, rad, getP4(), getP1());
+        else return false;
     }
 
     @Override
@@ -100,26 +95,23 @@ public class Rectangle implements Drawable {
         p1.shift(delta.getX(), delta.getY());
         p2.shift(delta.getX(), delta.getY());
         p3.shift(delta.getX(), delta.getY());
-        p4.shift(delta.getX(), delta.getY());
 
+    }
+
+    public boolean isChoose() {
+        return choose;
     }
 
     public void scaleAll(double scale) {
         p1.scale(scale);
         p2.scale(scale);
         p3.scale(scale);
-        p4.scale(scale);
     }
 
     public void rotateAll(double angle) {
         p1.rotate(angle);
         p2.rotate(angle);
         p3.rotate(angle);
-        p4.rotate(angle);
-    }
-
-    public boolean isChoose() {
-        return choose;
     }
 
     @Override
@@ -141,6 +133,8 @@ public class Rectangle implements Drawable {
             rotateAll(angle);
         else
             rotateAll(-angle);
+
+
     }
 
     @Override
@@ -150,7 +144,6 @@ public class Rectangle implements Drawable {
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);
-        p4.shift(-posX, -posY);
         if (zoom)
             scaleAll(Const.scale);
         else
@@ -158,19 +151,16 @@ public class Rectangle implements Drawable {
         p1.shift(posX, posY);
         p2.shift(posX, posY);
         p3.shift(posX, posY);
-        p4.shift(posX, posY);
 
     }
 
     @Override
     public void localRotate(boolean rotate) {
-
-        double posX = (p1.getX()+p2.getX()+p3.getX()+p4.getX())/4;
-        double posY = (p1.getY()+p2.getY()+p3.getY()+p4.getY())/4;
+        double posX = (p1.getX()+p2.getX()+p3.getX())/3;
+        double posY = (p1.getY()+p2.getY()+p3.getY())/3;
         p1.shift(-posX, -posY);
         p2.shift(-posX, -posY);
         p3.shift(-posX, -posY);
-        p4.shift(-posX, -posY);
         if (rotate)
             rotateAll(Const.angle);
         else
@@ -178,9 +168,7 @@ public class Rectangle implements Drawable {
         p1.shift(posX, posY);
         p2.shift(posX, posY);
         p3.shift(posX, posY);
-        p4.shift(posX, posY);
     }
-
 
     public void setChoose(boolean choose) {
         this.choose = choose;

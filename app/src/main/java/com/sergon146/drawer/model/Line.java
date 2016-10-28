@@ -1,15 +1,17 @@
-package com.example.android.sergon146.model;
+package com.sergon146.drawer.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.example.android.sergon146.util.Const;
+import com.sergon146.drawer.util.Const;
+
+import java.io.Serializable;
 
 /**
  * Created by Sergon146 on 017 17.10.16.
  */
 
-public class Line implements Drawable {
+public class Line implements Drawable, Serializable {
     private Point p1;
     private Point p2;
     private boolean choose;

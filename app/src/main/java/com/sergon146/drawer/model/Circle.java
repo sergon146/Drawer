@@ -1,15 +1,17 @@
-package com.example.android.sergon146.model;
+package com.sergon146.drawer.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.example.android.sergon146.util.Const;
+import com.sergon146.drawer.util.Const;
+
+import java.io.Serializable;
 
 /**
  * Created by sergon on 18.10.16.
  */
 
-public class Circle implements Drawable {
+public class Circle implements Drawable, Serializable {
     private double r;
     private Point c;
     private boolean choose;

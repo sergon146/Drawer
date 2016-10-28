@@ -1,4 +1,4 @@
-package com.example.android.sergon146;
+package com.sergon146;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

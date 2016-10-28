@@ -1,11 +1,13 @@
-package com.example.android.sergon146.model;
+package com.sergon146.drawer.model;
 
+
+import java.io.Serializable;
 
 /**
  * Created by Sergon146 on 017 17.10.16.
  */
 
-public class Point {
+public class Point implements Serializable {
     private double x;
     private double y;
 

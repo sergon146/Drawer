@@ -1,26 +1,32 @@
-package com.example.android.sergon146.activity;
+package com.sergon146.drawer.activity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.PopupMenu;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.android.sergon146.LineChartView;
-import com.example.android.sergon146.R;
-import com.example.android.sergon146.model.Circle;
-import com.example.android.sergon146.model.Drawable;
-import com.example.android.sergon146.model.Line;
-import com.example.android.sergon146.model.Rectangle;
-import com.example.android.sergon146.model.Trinagle;
+import com.sergon146.drawer.LineChartView;
+import com.sergon146.R;
+import com.sergon146.drawer.model.Circle;
+import com.sergon146.drawer.model.Drawable;
+import com.sergon146.drawer.model.Line;
+import com.sergon146.drawer.model.Rectangle;
+import com.sergon146.drawer.model.Trinagle;
+import com.sergon146.drawer.recorder.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,10 @@ public class MainActivity extends ActionBarActivity {
     int w, h;
     LineChartView lineChart;
     ToggleButton tgBut, local;
+    Menu topmenu;
+    int countCadre;
+    Record record;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         context = this;
-        list = new ArrayList<Drawable>();
+        list = new ArrayList<>();
         lineChart = (LineChartView) findViewById(R.id.linechart);
         lineChart.setList(list);
 
@@ -55,6 +65,75 @@ public class MainActivity extends ActionBarActivity {
         w = size.x;
         h = size.y - 350;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        topmenu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        ActionMenuItemView recordNA;
+
+        switch (id) {
+            case (R.id.action_recordStart):
+                record = new Record();
+                topmenu.setGroupVisible(R.id.groupRec, false);
+                topmenu.setGroupVisible(R.id.groupInRec, true);
+                topmenu.setGroupVisible(R.id.groupPlay, false);
+                countCadre = 0;
+                recordNA = (ActionMenuItemView) findViewById(R.id.action_recordStop);
+                recordNA.setIcon(getDrawable(R.drawable.stop_na));
+                recordNA.setEnabled(false);
+
+
+                break;
+            case (R.id.action_saveCadre):
+                //TODO добавление текущего листа в коллекцию
+                record.addList(list);
+                countCadre++;
+                if (countCadre < 2) {
+                    recordNA = (ActionMenuItemView) findViewById(R.id.action_recordStop);
+                    recordNA.setIcon(getDrawable(R.drawable.stop_na));
+                    recordNA.setEnabled(false);
+                } else {
+                    recordNA = (ActionMenuItemView) findViewById(R.id.action_recordStop);
+                    recordNA.setIcon(getDrawable(R.drawable.stop));
+                    recordNA.setEnabled(true);
+                }
+                break;
+
+            case (R.id.action_recordStop):
+                //TODO сохранение колеции листов в файл
+                topmenu.setGroupVisible(R.id.groupRec, true);
+                topmenu.setGroupVisible(R.id.groupInRec, false);
+                topmenu.setGroupVisible(R.id.groupPlay, true);
+
+                intent = new Intent(this, SaveActivity.class);
+                intent.putExtra("record", record);
+                startActivity(intent);
+                break;
+
+            case (R.id.action_recordClose):
+                //TODO удалить коллекцию листов
+                topmenu.setGroupVisible(R.id.groupRec, true);
+                topmenu.setGroupVisible(R.id.groupInRec, false);
+                topmenu.setGroupVisible(R.id.groupPlay, true);
+                break;
+
+            case (R.id.action_recordPlay):
+                intent = new Intent(this, ShowActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -76,14 +155,22 @@ public class MainActivity extends ActionBarActivity {
                 break;
 
             case R.id.delete:
+                boolean flag = false;
                 if (list.size() > 0) {
                     for (int i = 0; i < list.size(); i++) {
-                        if (list.get(i).isChoose())
+                        if (list.get(i).isChoose()) {
                             list.remove(i);
+                            flag = true;
+                        }
                     }
-                    Toast.makeText(context,
-                            "Выбранный фрагмент удалён",
-                            Toast.LENGTH_SHORT).show();
+                    if (flag)
+                        Toast.makeText(context,
+                                "Выбранный фрагмент удалён",
+                                Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(context,
+                                "Выберете фрагмент для удаления",
+                                Toast.LENGTH_SHORT).show();
                 } else Toast.makeText(context,
                         "Лист чист!",
                         Toast.LENGTH_SHORT).show();
@@ -151,11 +238,6 @@ public class MainActivity extends ActionBarActivity {
         popupMenu.show();
         lineChart.setList(list);
 
-    }
-
-
-    public List<Drawable> getList() {
-        return list;
     }
 
 

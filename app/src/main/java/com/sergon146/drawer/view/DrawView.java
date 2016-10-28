@@ -1,4 +1,4 @@
-package com.example.android.sergon146;
+package com.sergon146.drawer.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,12 +7,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.android.sergon146.model.Drawable;
-import com.example.android.sergon146.model.Point;
+import com.sergon146.drawer.model.Drawable;
+import com.sergon146.drawer.model.Point;
 
 import java.util.List;
 
-public class LineChartView extends View {
+public class DrawView extends View {
     private Point touch, currentPoint, finishPoint, delta;
 
 
@@ -23,7 +23,7 @@ public class LineChartView extends View {
         this.list = list;
     }
 
-    public LineChartView(Context context, AttributeSet attrs) {
+    public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -60,8 +60,6 @@ public class LineChartView extends View {
             case MotionEvent.ACTION_DOWN:
                 currentPoint = new Point(event.getX(), event.getY());
                 touch = new Point(event.getX(), event.getY());
-                for (Drawable d : list)
-                    d.setChoose(false);
                 for (Drawable d : list) {
                     d.setChoose(false);
                     if (touch != null)

@@ -1,4 +1,4 @@
-package com.example.android.sergon146.model;
+package com.sergon146.drawer.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
