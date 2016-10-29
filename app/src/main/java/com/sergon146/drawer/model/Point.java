@@ -53,5 +53,9 @@ public class Point implements Serializable {
         y += y1;
     }
 
+    public Point morf(double t, Point p){
+        return new Point(x*(1-t) + p.x*t, y*(1-t) + p.y*t);
+    }
+
 
 }

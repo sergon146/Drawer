@@ -15,20 +15,24 @@ public class Circle implements Drawable, Serializable {
     private double r;
     private Point c;
     private boolean choose;
+    private int id;
 
-    public Circle(Point c, double r) {
-        c = this.c;
-        r = this.r;
+    public Circle(Point c, double r, int id) {
+        this.c = c;
+        this.r = r;
+        this.id = id;
     }
 
-    public Circle(Circle circle){
+    public Circle(Circle circle) {
         c = new Point(circle.c);
         r = circle.r;
+        id = circle.id;
     }
 
-    public Circle(int maxX, int maxY) {
+    public Circle(int maxX, int maxY, int id) {
         r = 10 + (Math.random() * 60);
         c = new Point(10 + r + (Math.random() * (maxX - r - 10)), 190 + r + (Math.random() * (maxY - 190 - r - 10)));
+        this.id = id;
 
     }
 
@@ -47,6 +51,15 @@ public class Circle implements Drawable, Serializable {
 
     public void setR(double r) {
         this.r = r;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -107,11 +120,18 @@ public class Circle implements Drawable, Serializable {
 
     @Override
     public void localRotate(boolean rotate) {
-    //do nothing
+        //do nothing
     }
 
     public void setChoose(boolean choose) {
         this.choose = choose;
+    }
+
+    @Override
+    public Drawable morf(double t, Drawable d) {
+        Circle crl = (Circle) d;
+        double r = this.r*(1-t)+crl.r*t;
+        return new Circle(c.morf(t,crl.c), r, crl.id);
     }
 
 

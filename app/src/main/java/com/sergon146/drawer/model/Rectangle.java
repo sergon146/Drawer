@@ -17,13 +17,23 @@ public class Rectangle implements Drawable, Serializable {
     private Point p3;
     private Point p4;
     private boolean choose;
+    private int id;
 
 
-    public Rectangle(int maxX, int maxY) {
+    public Rectangle(int maxX, int maxY, int id) {
         p1 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p3 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p2 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p4 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+        this.id = id;
+    }
+
+    public Rectangle(Point p1, Point p2, Point p3, Point p4, int id){
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+        this.p4 = p4;
+        this.id = id;
     }
 
     public Rectangle(Rectangle rect) {
@@ -31,6 +41,7 @@ public class Rectangle implements Drawable, Serializable {
         p2 = new Point(rect.p2);
         p3 = new Point(rect.p3);
         p4 = new Point(rect.p4);
+        id = rect.id;
     }
 
 
@@ -64,6 +75,15 @@ public class Rectangle implements Drawable, Serializable {
 
     public void setP4(Point p4) {
         this.p4 = p4;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -193,4 +213,15 @@ public class Rectangle implements Drawable, Serializable {
     public void setChoose(boolean choose) {
         this.choose = choose;
     }
+
+    @Override
+    public Drawable morf(double t, Drawable d) {
+        Rectangle r = (Rectangle) d;
+        return new Rectangle(p1.morf(t,r.p1),
+                p2.morf(t,r.p2),
+                p3.morf(t,r.p3),
+                p4.morf(t,r.p4),
+                r.id);
+    }
+
 }

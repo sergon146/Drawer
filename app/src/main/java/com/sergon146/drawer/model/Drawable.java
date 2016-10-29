@@ -18,10 +18,6 @@ public interface Drawable {
     void globalRotate(boolean rotate);
     void localSacle(boolean zoom);
     void localRotate(boolean rotate);
-//    boolean isMouseNear(Point mousePoint, double sens);
-//    void scaleSelf(double scale);
-//    void rotateSelf(double angle);
-//    void scaleGlobal(double scale);
-//    void rotateGlobal(double angle);
-//    void shift(Point p);
+    int getId();
+    Drawable morf(double t, Drawable d);
 }

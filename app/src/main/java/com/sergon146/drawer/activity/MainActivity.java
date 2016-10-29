@@ -36,11 +36,10 @@ public class MainActivity extends ActionBarActivity {
 
     Context context;
     List<Drawable> list;
-    int w, h;
+    int w, h, countCadre, id;
     DrawView lineChart;
     ToggleButton tgBut, local;
     Menu topmenu;
-    int countCadre;
     Record record;
     Intent intent;
 
@@ -64,6 +63,7 @@ public class MainActivity extends ActionBarActivity {
         display.getSize(size);
         w = size.x;
         h = size.y - 350;
+        id = 0;
 
     }
 
@@ -206,7 +206,8 @@ public class MainActivity extends ActionBarActivity {
                         switch (item.getItemId()) {
 
                             case R.id.menu1:
-                                list.add(new Line(w, h));
+                                list.add(new Line(w, h, id));
+                                id++;
                                 lineChart.invalidate();
 
                                 Toast.makeText(context,
@@ -215,21 +216,24 @@ public class MainActivity extends ActionBarActivity {
 
                                 return true;
                             case R.id.menu2:
-                                list.add(new Circle(w, h));
+                                list.add(new Circle(w, h, id));
+                                id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
                                         "Добавлен круг",
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.menu3:
-                                list.add(new Trinagle(w, h));
+                                list.add(new Trinagle(w, h, id));
+                                id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
                                         "Добавлен треугольник",
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.menu4:
-                                list.add(new Rectangle(w, h));
+                                list.add(new Rectangle(w, h, id));
+                                id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
                                         "Добавлен прямоугольник",

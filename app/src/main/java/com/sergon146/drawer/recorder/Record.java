@@ -40,7 +40,8 @@ public class Record implements Serializable {
     public int getId() {
         return id;
     }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,5 +51,30 @@ public class Record implements Serializable {
 
     public void clear() {
         record.clear();
+    }
+
+    public int size() {
+        return record.size();
+    }
+
+    public List<Drawable> getMorfList(double t, int idd) {
+        id = idd;
+        List<Drawable> prevList = record.get(id);
+        List<Drawable> nextList = record.get(nextList());
+        List<Drawable> currentList = new ArrayList<>();
+        Drawable nextFigure;
+        for (int i = 0; i < nextList.size(); i++) {
+            nextFigure = nextList.get(i);
+
+            for (int j = 0; j < prevList.size(); j++) {
+                if (prevList.get(j).getId() == nextFigure.getId())
+                    currentList.add(prevList.get(j).morf(t, nextList.get(i)));
+            }
+
+
+
+
+        }
+        return currentList;
     }
 }

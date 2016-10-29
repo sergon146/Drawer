@@ -16,6 +16,7 @@ public class Trinagle implements Drawable, Serializable {
     private Point p2;
     private Point p3;
     private boolean choose;
+    private int id;
 
     public Point getP1() {
         return p1;
@@ -41,16 +42,33 @@ public class Trinagle implements Drawable, Serializable {
         this.p3 = p3;
     }
 
-    public Trinagle(Point p1, Point p2, Point p3) {
-        p1 = this.p1;
-        p2 = this.p2;
-        p3 = this.p3;
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public Trinagle(int maxX, int maxY) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Trinagle(Point p1, Point p2, Point p3) {
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+    }
+
+    public Trinagle(Point p1, Point p2, Point p3, int id) {
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+        this.id = id;
+    }
+
+    public Trinagle(int maxX, int maxY, int id) {
         p1 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p2 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p3 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+        this.id = id;
 
     }
 
@@ -58,6 +76,7 @@ public class Trinagle implements Drawable, Serializable {
         p1 = new Point(trinagle.p1);
         p2 = new Point(trinagle.p2);
         p3 = new Point(trinagle.p3);
+        id = trinagle.id;
     }
 
     @Override
@@ -178,5 +197,14 @@ public class Trinagle implements Drawable, Serializable {
 
     public void setChoose(boolean choose) {
         this.choose = choose;
+    }
+
+    @Override
+    public Drawable morf(double t, Drawable d) {
+        Trinagle r = (Trinagle) d;
+        return new Trinagle(p1.morf(t, r.p1),
+                p2.morf(t, r.p2),
+                p3.morf(t, r.p3),
+                r.id);
     }
 }
