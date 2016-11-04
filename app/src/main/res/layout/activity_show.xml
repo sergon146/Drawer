@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_show"
     android:layout_width="match_parent"
@@ -69,7 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,6 +79,48 @@
             android:id="@+id/cadreText"
             android:layout_weight="1"
             android:textColor="@android:color/holo_blue_bright" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/play_layout"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:src="@drawable/start_left"
+            android:id="@+id/play_left"
+            android:onClick="onClick" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/pause_play"
+            android:id="@+id/play_pause"
+            android:layout_weight="0.03"
+            android:layout_height="32dp"
+            android:onClick="onClick" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/stop_play"
+            android:id="@+id/play_stop"
+            android:layout_weight="0.05"
+            android:layout_height="32dp"
+            android:onClick="onClick" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/start_right"
+            android:id="@+id/play_right"
+            android:layout_weight="0.03"
+            android:layout_height="32dp"
+            android:onClick="onClick" />
     </LinearLayout>
 
 </RelativeLayout>

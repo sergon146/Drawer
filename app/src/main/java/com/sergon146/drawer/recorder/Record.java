@@ -57,18 +57,29 @@ public class Record implements Serializable {
         return record.size();
     }
 
-    public List<Drawable> getMorfList(double t, int idd) {
+    public List<Drawable> getMorfList(double t, int idd, boolean backToTheFuture) {
         id = idd;
-        List<Drawable> prevList = record.get(id);
-        List<Drawable> nextList = record.get(nextList());
+        List<Drawable> prevList ;
+        List<Drawable> nextList;
+        if (backToTheFuture) {
+            prevList = record.get(id);
+            nextList = record.get(nextList());
+        } else{
+            prevList = record.get(id);
+            nextList = record.get(prevList());
+        }
         List<Drawable> currentList = new ArrayList<>();
         Drawable nextFigure;
         for (int i = 0; i < nextList.size(); i++) {
             nextFigure = nextList.get(i);
 
             for (int j = 0; j < prevList.size(); j++) {
-                if (prevList.get(j).getId() == nextFigure.getId())
+                if (prevList.get(j).getId() == nextFigure.getId()) {
                     currentList.add(prevList.get(j).morf(t, nextList.get(i)));
+                    break;
+                }
+                if (j == prevList.size()-1)
+                    currentList.add(nextList.get(i));
             }
 
 

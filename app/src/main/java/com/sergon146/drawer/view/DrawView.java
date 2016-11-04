@@ -13,7 +13,8 @@ import com.sergon146.drawer.model.Point;
 import java.util.List;
 
 public class DrawView extends View {
-    private Point touch, currentPoint, finishPoint, delta;
+    private Point touch;
+    private Point currentPoint;
 
 
     private Paint paint = new Paint();
@@ -70,8 +71,8 @@ public class DrawView extends View {
             case MotionEvent.ACTION_MOVE:
                     for (Drawable d : list) {
                         if (d.isChoose()) {
-                            finishPoint = new Point(event.getX(), event.getY());
-                            delta = new Point(finishPoint.getX() - currentPoint.getX(),
+                            Point finishPoint = new Point(event.getX(), event.getY());
+                            Point delta = new Point(finishPoint.getX() - currentPoint.getX(),
                                     finishPoint.getY() - currentPoint.getY());
                             currentPoint = new Point(finishPoint);
                             d.shift(delta);

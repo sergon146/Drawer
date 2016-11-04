@@ -38,7 +38,7 @@ public class ShowView extends View {
         paint.setShadowLayer(4, 2, 2, 0x80000000);
 
 
-        if (list.size() != 0) {
+        if (list.size() > 0) {
             for (Drawable d : list) {
                     if (d.isChoose()) {
                         paint.setColor(0xFFFF0000);

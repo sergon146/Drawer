@@ -57,5 +57,9 @@ public class Point implements Serializable {
         return new Point(x*(1-t) + p.x*t, y*(1-t) + p.y*t);
     }
 
+    public Point mid(Point p){
+        return new Point((x+p.x)/2, (y+p.y)/2);
+    }
+
 
 }

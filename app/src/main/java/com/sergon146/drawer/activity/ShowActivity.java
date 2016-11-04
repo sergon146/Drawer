@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sergon146.drawer.R;
@@ -26,7 +27,10 @@ public class ShowActivity extends ActionBarActivity {
     Timer timer;
     Morf morf;
     double t;
+    LinearLayout play_layout;
+    ImageView action;
     int index;
+    boolean backToTheFuture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,9 @@ public class ShowActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = getIntent();
         cadre = (TextView) findViewById(R.id.cadreText);
+
+        play_layout = (LinearLayout) findViewById(R.id.play_layout);
+        play_layout.setVisibility(View.INVISIBLE);
 
         record = (Record) intent.getSerializableExtra("record");
         record.setId(0);
@@ -55,47 +62,27 @@ public class ShowActivity extends ActionBarActivity {
             case R.id.right:
                 lineChart.setList(record.getList(record.nextList()));
                 break;
-        }
-        cadre.setText("Кадр: " + (record.getId() + 1) + " из " + record.size());
-        lineChart.invalidate();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        topmenu = menu;
-        getMenuInflater().inflate(R.menu.showmenu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ImageView action;
-        switch (item.getItemId()) {
-            case (R.id.play):
-                topmenu.setGroupVisible(R.id.stopGr, true);
-                topmenu.setGroupVisible(R.id.playGr, false);
-                action = (ImageView) findViewById(R.id.left);
-                action.setVisibility(View.INVISIBLE);
-                action = (ImageView) findViewById(R.id.right);
-                action.setVisibility(View.INVISIBLE);
-                cadre.setVisibility(View.INVISIBLE);
-                //TODO automatic play
-
+            case R.id.play_left:
+                if (morf != null)
+                    morf.cancel();
+                backToTheFuture = false;
                 record.setId(0);
                 t = 0;
 
                 index = 0;
                 timer = new Timer();
                 morf = new Morf();
-                timer.schedule(morf, 0, 2);
-
-
+                timer.schedule(morf, 0, 5);
                 break;
-            case (R.id.stop):
-                //TODO stop play
-                morf.cancel();
-                topmenu.setGroupVisible(R.id.stopGr, false);
+            case R.id.play_pause:
+                if (morf != null)
+                    morf.cancel();
+                break;
+            case R.id.play_stop:
+                if (morf != null)
+                    morf.cancel();
+                play_layout.setVisibility(View.INVISIBLE);
+                topmenu.setGroupVisible(R.id.stopGr, true);
                 topmenu.setGroupVisible(R.id.playGr, true);
                 action = (ImageView) findViewById(R.id.left);
                 action.setVisibility(View.VISIBLE);
@@ -108,8 +95,46 @@ public class ShowActivity extends ActionBarActivity {
                 cadre.setText("Кадр: " + (record.getId() + 1) + " из " + record.size());
                 lineChart.invalidate();
                 break;
+            case R.id.play_right:
+                if (morf != null)
+                    morf.cancel();
+                backToTheFuture = true;
+                record.setId(0);
+                t = 0;
+                index = 0;
+                timer = new Timer();
+                morf = new Morf();
+                timer.schedule(morf, 0, 5);
+                break;
         }
+        cadre.setText("Кадр: " + (record.getId() + 1) + " из " + record.size());
+        lineChart.invalidate();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        topmenu = menu;
+        getMenuInflater().inflate(R.menu.showmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.play):
+                play_layout.setVisibility(View.VISIBLE);
+                topmenu.setGroupVisible(R.id.playGr, false);
+                topmenu.setGroupVisible(R.id.stopGr, true);
+                action = (ImageView) findViewById(R.id.left);
+                action.setVisibility(View.INVISIBLE);
+                action = (ImageView) findViewById(R.id.right);
+                action.setVisibility(View.INVISIBLE);
+                cadre.setVisibility(View.INVISIBLE);
+                break;
+            case (R.id.close):
+                finish();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -118,11 +143,10 @@ public class ShowActivity extends ActionBarActivity {
 
         @Override
         public void run() {
+
             if (t < 1) {
-                t += 0.001;
-                lineChart.setList(record.getMorfList(t, index));
-
-
+                t += 0.005;
+                lineChart.setList(record.getMorfList(t, index, backToTheFuture));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -130,10 +154,17 @@ public class ShowActivity extends ActionBarActivity {
                     }
                 });
             } else {
-                if (index < record.size()-1)
-                    index++;
-                else index=0;
-                t=0;
+                if (backToTheFuture) {
+                    if (index < record.size() - 1)
+                        index++;
+                    else index = 0;
+                    t = 0;
+                } else {
+                    if (index > 0)
+                        index--;
+                    else index = record.size() - 1;
+                    t = 0;
+                }
             }
         }
     }

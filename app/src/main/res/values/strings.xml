@@ -29,6 +29,9 @@
     <string name="right">Следующий кадр</string>
 
     <string name="play">Воспроизвести</string>
-    <string name="stop">Остановить воспроизведение</string>
+    <string name="stop">Закрыть</string>
+
+    <string name="serp">Фрактал</string>
+    <string name="draw">Отрисовать</string>
 
 </resources>

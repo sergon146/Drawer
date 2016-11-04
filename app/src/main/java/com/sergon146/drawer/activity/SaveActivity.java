@@ -25,13 +25,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class SaveActivity extends ActionBarActivity {
-    private RecyclerView mRecyclerView;
 
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerAdapter mAdapter;
     EditText nameText;
     ArrayList<String> names;
-
     Context context;
 
     @Override
@@ -41,27 +37,24 @@ public class SaveActivity extends ActionBarActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         context = this;
-
         nameText = (EditText) findViewById(R.id.saveName);
-
-
         File rootFolder = getExternalCacheDir();
         assert rootFolder != null;
         File[] filesArray = rootFolder.listFiles();
-        String path = "";
+        String path;
         names = new ArrayList<>();
         for (File f : filesArray) {
             path = f.toString();
             names.add(path.substring(path.lastIndexOf('/') + 1, path.length()));
         }
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv);
 
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerAdapter(names);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(names);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
@@ -72,8 +65,6 @@ public class SaveActivity extends ActionBarActivity {
                     }
                 })
         );
-
-
     }
 
 

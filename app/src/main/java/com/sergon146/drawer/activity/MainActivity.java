@@ -4,12 +4,12 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.PopupMenu;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import com.sergon146.drawer.view.DrawView;
 import com.sergon146.drawer.R;
 import com.sergon146.drawer.model.Circle;
+import com.sergon146.drawer.model.Point;
 import com.sergon146.drawer.model.Drawable;
 import com.sergon146.drawer.model.Line;
 import com.sergon146.drawer.model.Rectangle;
@@ -59,10 +60,10 @@ public class MainActivity extends ActionBarActivity {
         local = (ToggleButton) findViewById(R.id.local);
 
         Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        w = size.x;
-        h = size.y - 350;
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+        w = metricsB.widthPixels;
+        h = metricsB.heightPixels - 350;
         id = 0;
 
     }
@@ -144,6 +145,10 @@ public class MainActivity extends ActionBarActivity {
                 intent = new Intent(this, ChooseActivity.class);
                 startActivity(intent);
                 break;
+            case (R.id.action_fractal):
+                intent = new Intent(this, FractalActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -192,7 +197,6 @@ public class MainActivity extends ActionBarActivity {
                 break;
         }
         lineChart.invalidate();
-
     }
 
     private void showPopupMenu(View v) {
@@ -213,7 +217,6 @@ public class MainActivity extends ActionBarActivity {
                                 Toast.makeText(context,
                                         "Добавлен отрезок",
                                         Toast.LENGTH_SHORT).show();
-
                                 return true;
                             case R.id.menu2:
                                 list.add(new Circle(w, h, id));
@@ -242,8 +245,6 @@ public class MainActivity extends ActionBarActivity {
                             default:
                                 return false;
                         }
-
-
                     }
                 });
 
@@ -260,7 +261,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (!tgBut.isChecked()) {
@@ -283,7 +283,6 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
                 }
-
                 lineChart.invalidate();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
@@ -307,13 +306,13 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
                 }
-
                 lineChart.invalidate();
                 return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
+
+
 
 
 }
