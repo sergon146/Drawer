@@ -19,5 +19,6 @@ public interface Drawable {
     void localSacle(boolean zoom);
     void localRotate(boolean rotate);
     int getId();
+    int getColor();
     Drawable morf(double t, Drawable d);
 }

@@ -18,22 +18,25 @@ public class Rectangle implements Drawable, Serializable {
     private Point p4;
     private boolean choose;
     private int id;
+    private int color;
 
 
-    public Rectangle(int maxX, int maxY, int id) {
+    public Rectangle(int maxX, int maxY, int id, int color) {
         p1 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
         p3 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-        p2 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
-        p4 = new Point(Math.random() * maxX, 190 + (Math.random() * (maxY - 190)));
+        p2 = new Point(p1.getX(), p3.getY());
+        p4 = new Point(p3.getX(), p1.getY());
         this.id = id;
+        this.color = color;
     }
 
-    public Rectangle(Point p1, Point p2, Point p3, Point p4, int id){
+    public Rectangle(Point p1, Point p2, Point p3, Point p4, int id, int color){
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
         this.p4 = p4;
         this.id = id;
+        this.color = color;
     }
 
     public Rectangle(Rectangle rect) {
@@ -42,6 +45,7 @@ public class Rectangle implements Drawable, Serializable {
         p3 = new Point(rect.p3);
         p4 = new Point(rect.p4);
         id = rect.id;
+        color = rect.color;
     }
 
 
@@ -84,6 +88,10 @@ public class Rectangle implements Drawable, Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     @Override
@@ -221,7 +229,8 @@ public class Rectangle implements Drawable, Serializable {
                 p2.morf(t,r.p2),
                 p3.morf(t,r.p3),
                 p4.morf(t,r.p4),
-                r.id);
+                r.id,
+                d.getColor());
     }
 
 }

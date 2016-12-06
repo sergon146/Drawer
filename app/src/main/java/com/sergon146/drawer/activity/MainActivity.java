@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -38,8 +39,10 @@ public class MainActivity extends ActionBarActivity {
     Context context;
     List<Drawable> list;
     int w, h, countCadre, id;
+    boolean zoom = true;
+    boolean local = true;
+    int color = 0;
     DrawView lineChart;
-    ToggleButton tgBut, local;
     Menu topmenu;
     Record record;
     Intent intent;
@@ -55,16 +58,13 @@ public class MainActivity extends ActionBarActivity {
         lineChart = (DrawView) findViewById(R.id.linechart);
         lineChart.setList(list);
 
-
-        tgBut = (ToggleButton) findViewById(R.id.zoom);
-        local = (ToggleButton) findViewById(R.id.local);
-
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
         w = metricsB.widthPixels;
         h = metricsB.heightPixels - 350;
         id = 0;
+        color = 0;
 
     }
 
@@ -145,10 +145,6 @@ public class MainActivity extends ActionBarActivity {
                 intent = new Intent(this, ChooseActivity.class);
                 startActivity(intent);
                 break;
-            case (R.id.action_fractal):
-                intent = new Intent(this, FractalActivity.class);
-                startActivity(intent);
-                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -159,17 +155,6 @@ public class MainActivity extends ActionBarActivity {
         switch (view.getId()) {
             case R.id.draw:
                 showPopupMenu(view);
-                break;
-
-            case R.id.undo:
-                if (list.size() > 0) {
-                    list.remove(list.size() - 1);
-                    Toast.makeText(context,
-                            "Последний фрагмент удалён",
-                            Toast.LENGTH_SHORT).show();
-                } else Toast.makeText(context,
-                        "Лист чист!",
-                        Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.delete:
@@ -185,13 +170,52 @@ public class MainActivity extends ActionBarActivity {
                         Toast.makeText(context,
                                 "Выбранный фрагмент удалён",
                                 Toast.LENGTH_SHORT).show();
-                    else
+                    else {
+                        list.remove(list.size() - 1);
                         Toast.makeText(context,
-                                "Выберете фрагмент для удаления",
+                                "Последний фрагмент удалён",
                                 Toast.LENGTH_SHORT).show();
+                    }
                 } else Toast.makeText(context,
                         "Лист чист!",
                         Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.zoom:
+                ImageButton zoomBtn = (ImageButton) findViewById(R.id.zoom);
+                if (zoom)
+                    zoomBtn.setImageResource(R.drawable.rotate);
+                else
+                    zoomBtn.setImageResource(R.drawable.zoom);
+                zoom = !zoom;
+                break;
+            case R.id.global:
+                ImageButton globalBtn = (ImageButton) findViewById(R.id.global);
+                if (local)
+                    globalBtn.setImageResource(R.drawable.local);
+                else
+                    globalBtn.setImageResource(R.drawable.global);
+                local = !local;
+                break;
+            case R.id.color:
+                ImageButton colorBtn = (ImageButton) findViewById(R.id.color);
+                switch (color){
+                    case 0:
+                        color = 1;
+                        colorBtn.setImageResource(R.color.green);
+                        break;
+                    case 1:
+                        color = 2;
+                        colorBtn.setImageResource(R.color.black);
+                        break;
+                    case 2:
+                        color = 3;
+                        colorBtn.setImageResource(R.color.white);
+                        break;
+                    case 3:
+                        color = 0;
+                        colorBtn.setImageResource(R.color.blue);
+                        break;
+                }
                 break;
             default:
                 break;
@@ -210,7 +234,7 @@ public class MainActivity extends ActionBarActivity {
                         switch (item.getItemId()) {
 
                             case R.id.menu1:
-                                list.add(new Line(w, h, id));
+                                list.add(new Line(w, h, id, color));
                                 id++;
                                 lineChart.invalidate();
 
@@ -219,7 +243,7 @@ public class MainActivity extends ActionBarActivity {
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.menu2:
-                                list.add(new Circle(w, h, id));
+                                list.add(new Circle(w, h, id, color));
                                 id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
@@ -227,7 +251,7 @@ public class MainActivity extends ActionBarActivity {
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.menu3:
-                                list.add(new Trinagle(w, h, id));
+                                list.add(new Trinagle(w, h, id, color));
                                 id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
@@ -235,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
                                         Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.menu4:
-                                list.add(new Rectangle(w, h, id));
+                                list.add(new Rectangle(w, h, id, color));
                                 id++;
                                 lineChart.invalidate();
                                 Toast.makeText(context,
@@ -263,11 +287,11 @@ public class MainActivity extends ActionBarActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                if (!tgBut.isChecked()) {
+                if (zoom) {
                     System.out.println("zoom +");
                     for (Drawable d : list) {
                         if (d.isChoose()) {
-                            if (local.isChecked())
+                            if (local)
                                 d.globalScale(true);
                             else
                                 d.localSacle(true);
@@ -276,7 +300,7 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     for (Drawable d : list) {
                         if (d.isChoose()) {
-                            if (local.isChecked())
+                            if (local)
                                 d.globalRotate(true);
                             else
                                 d.localRotate(true);
@@ -286,11 +310,11 @@ public class MainActivity extends ActionBarActivity {
                 lineChart.invalidate();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                if (!tgBut.isChecked()) {
+                if (zoom) {
                     System.out.println("zoom +");
                     for (Drawable d : list) {
                         if (d.isChoose()) {
-                            if (local.isChecked())
+                            if (local)
                                 d.globalScale(false);
                             else
                                 d.localSacle(false);
@@ -299,7 +323,7 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     for (Drawable d : list) {
                         if (d.isChoose()) {
-                            if (local.isChecked())
+                            if (local)
                                 d.globalRotate(false);
                             else
                                 d.localRotate(false);
@@ -311,8 +335,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
 }

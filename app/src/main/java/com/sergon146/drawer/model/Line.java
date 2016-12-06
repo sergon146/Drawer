@@ -16,23 +16,27 @@ public class Line implements Drawable, Serializable {
     private Point p2;
     private boolean choose;
     private int id;
+    private int color;
 
-    public Line(Point p1, Point p2) {
+    public Line(Point p1, Point p2, int color) {
         this.p1 = p1;
         this.p2 = p2;
         choose = false;
+        this.color = color;
     }
 
     public Line(Line line){
         p1 = new Point(line.p1);
         p2 = new Point(line.p2);
         id = line.id;
+        color = line.color;
     }
 
-    public Line(double maxX, double maxY, int id) {
+    public Line(double maxX, double maxY, int id, int color) {
         p1 = new Point(Math.random() * maxX, (Math.random() * (maxY)));
         p2 = new Point(Math.random() * maxX, (Math.random() * (maxY)));
         this.id = id;
+        this.color = color;
     }
 
     public Point getP1() {
@@ -60,6 +64,9 @@ public class Line implements Drawable, Serializable {
         this.id = id;
     }
 
+    public int getColor() {
+        return color;
+    }
 
     public boolean isChoose() {
         return choose;
@@ -165,7 +172,7 @@ public class Line implements Drawable, Serializable {
     @Override
     public Drawable morf(double t, Drawable d) {
         Line line = (Line) d;
-        Line newLine = new Line (p1.morf(t, line.p1), p2.morf(t, line.p2));
+        Line newLine = new Line (p1.morf(t, line.p1), p2.morf(t, line.p2), d.getColor());
         newLine.id = line.id;
         return newLine;
     }

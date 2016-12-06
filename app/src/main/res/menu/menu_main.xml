@@ -9,11 +9,6 @@
             android:icon="@drawable/show"
             android:title="@string/recordShow"
             app:showAsAction="always" />
-        <item
-            android:id="@+id/action_fractal"
-            android:icon="@drawable/fractal"
-            android:title="@string/serp"
-            app:showAsAction="always" />
     </group>
 
     <group android:id="@+id/groupRec">

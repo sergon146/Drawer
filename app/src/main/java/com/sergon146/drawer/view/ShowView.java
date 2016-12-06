@@ -2,6 +2,7 @@ package com.sergon146.drawer.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -33,18 +34,26 @@ public class ShowView extends View {
     public void drawFigure(Canvas canvas) {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(4);
-        paint.setColor(0xFF33B5E5);
         paint.setAntiAlias(true);
-        paint.setShadowLayer(4, 2, 2, 0x80000000);
 
 
         if (list.size() > 0) {
             for (Drawable d : list) {
-                    if (d.isChoose()) {
-                        paint.setColor(0xFFFF0000);
-                    } else {
-                        paint.setColor(0xFF33B5E5);
-                    }
+                        switch (d.getColor()){
+                            case 0:
+                                paint.setColor(Color.BLUE);
+                                break;
+                            case 1:
+                                paint.setColor(Color.GREEN);
+                                break;
+                            case 2:
+                                paint.setColor(Color.BLACK);
+                                break;
+                            case 3:
+                                paint.setColor(Color.WHITE);
+                                break;
+                        }
+
                 d.draw(canvas, paint);
             }
         }

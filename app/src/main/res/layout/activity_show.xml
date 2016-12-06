@@ -94,13 +94,13 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="32dp"
-            android:src="@drawable/start_left"
+            android:src="@drawable/left"
             android:id="@+id/play_left"
             android:onClick="onClick" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/pause_play"
+            android:src="@drawable/stop_na"
             android:id="@+id/play_pause"
             android:layout_weight="0.03"
             android:layout_height="32dp"
@@ -108,7 +108,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/stop_play"
+            android:src="@drawable/stop"
             android:id="@+id/play_stop"
             android:layout_weight="0.05"
             android:layout_height="32dp"
@@ -116,7 +116,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/start_right"
+            android:src="@drawable/right"
             android:id="@+id/play_right"
             android:layout_weight="0.03"
             android:layout_height="32dp"

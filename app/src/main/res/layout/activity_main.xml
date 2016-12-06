@@ -16,7 +16,7 @@
         android:padding="16dp"/>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,44 +25,55 @@
 
         <ImageButton
             android:layout_height="wrap_content"
-            android:src="@drawable/draw"
-            android:id="@+id/draw"
-            android:onClick="onClick"
-            android:layout_width="wrap_content" />
-
-        <ToggleButton
-            android:layout_height="match_parent"
-            android:id="@+id/zoom"
-            android:textOff="@string/zoom"
-            android:textOn="@string/scale"
-            android:layout_width="85dp"
-            android:textSize="12sp"
-            android:layout_weight="0.58" />
-
-        <ToggleButton
-            android:layout_height="match_parent"
-            android:id="@+id/local"
-            android:textOff="@string/local"
-            android:textOn="@string/global"
-            android:textSize="12sp"
-            android:layout_width="85dp"
-            android:layout_weight="0.31" />
-
-        <ImageButton
-            android:layout_width="43dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/undo"
-            android:id="@+id/undo"
-            android:onClick="onClick"/>
-
-        <ImageButton
-            android:layout_width="42dp"
-            android:layout_height="wrap_content"
             android:src="@drawable/del"
             android:id="@+id/delete"
             android:onClick="onClick"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content" />
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:src="@drawable/draw"
+            android:id="@+id/draw"
+            android:onClick="onClick"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:src="@drawable/rotate"
+            android:id="@+id/zoom"
+            android:onClick="onClick"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/global"
+            android:layout_toEndOf="@+id/global" />
+
+        <ImageButton
+            android:src="@android:color/holo_blue_dark"
+            android:id="@+id/color"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/draw"
+            android:layout_toEndOf="@+id/draw"
+            android:layout_height="52dp"
+            android:layout_width="52dp"
+            android:onClick="onClick" />
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:src="@drawable/global"
+            android:id="@+id/global"
+            android:layout_width="wrap_content"
+            android:onClick="onClick"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/color"
+            android:layout_toEndOf="@+id/color" />
+
+    </RelativeLayout>
 
 </LinearLayout>
