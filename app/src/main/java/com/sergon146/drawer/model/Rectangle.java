@@ -2,6 +2,7 @@ package com.sergon146.drawer.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 import com.sergon146.drawer.util.Const;
 
@@ -96,11 +97,14 @@ public class Rectangle implements Drawable, Serializable {
 
     @Override
     public void draw(Canvas canvas, Paint p) {
-
-        canvas.drawLine(getP1().getX(), getP1().getY(), getP2().getX(), getP2().getY(), p);
-        canvas.drawLine(getP2().getX(), getP2().getY(), getP3().getX(), getP3().getY(), p);
-        canvas.drawLine(getP3().getX(), getP3().getY(), getP4().getX(), getP4().getY(), p);
-        canvas.drawLine(getP4().getX(), getP4().getY(), getP1().getX(), getP1().getY(), p);
+        Path path = new Path();
+        path.reset();
+        path.moveTo(getP1().getX(), getP1().getY());
+        path.lineTo(getP2().getX(), getP2().getY());
+        path.lineTo(getP3().getX(), getP3().getY());
+        path.lineTo(getP4().getX(), getP4().getY());
+        path.close();
+        canvas.drawPath(path, p);
     }
 
     private boolean isTouchNearLine(Point touch, float rad, Point p1, Point p2) {

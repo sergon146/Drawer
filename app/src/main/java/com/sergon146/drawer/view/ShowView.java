@@ -32,7 +32,7 @@ public class ShowView extends View {
 
 
     public void drawFigure(Canvas canvas) {
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStrokeWidth(4);
         paint.setAntiAlias(true);
 
@@ -41,16 +41,16 @@ public class ShowView extends View {
             for (Drawable d : list) {
                         switch (d.getColor()){
                             case 0:
-                                paint.setColor(Color.BLUE);
+                                paint.setColor(0xFF33B5E5);
                                 break;
                             case 1:
-                                paint.setColor(Color.GREEN);
+                                paint.setColor(0xFF43E854);
                                 break;
                             case 2:
-                                paint.setColor(Color.BLACK);
+                                paint.setColor(0xFF000000);
                                 break;
                             case 3:
-                                paint.setColor(Color.WHITE);
+                                paint.setColor(0xFFFFFFFF);
                                 break;
                         }
 

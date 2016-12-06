@@ -198,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.color:
                 ImageButton colorBtn = (ImageButton) findViewById(R.id.color);
-                switch (color){
+                switch (color) {
                     case 0:
                         color = 1;
                         colorBtn.setImageResource(R.color.green);
@@ -217,6 +217,25 @@ public class MainActivity extends ActionBarActivity {
                         break;
                 }
                 break;
+            case R.id.listdown:
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).isChoose()) {
+                        if (i > 0)
+                            swap(list, i, i - 1);
+                        break;
+                    }
+                }
+                break;
+            case R.id.listup:
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).isChoose()) {
+                        if (i < list.size()-1)
+                            swap(list, i + 1, i);
+                        break;
+                    }
+                }
+                break;
+
             default:
                 break;
         }
@@ -334,6 +353,12 @@ public class MainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void swap(List<Drawable> list, int cur, int next) {
+        Drawable tmp = list.get(cur);
+        list.set(cur, list.get(next));
+        list.set(next, tmp);
     }
 
 
