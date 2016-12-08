@@ -160,6 +160,14 @@ public class MainActivity extends ActionBarActivity {
             case R.id.delete:
                 boolean flag = false;
                 if (list.size() > 0) {
+                    int maxId = list.get(0).getId();
+                    int maxPos = 0;
+                    for (int i = 1; i < list.size(); i++) {
+                        if (list.get(i).getId() > maxId){
+                            maxId = list.get(i).getId();
+                            maxPos = i;
+                        }
+                    }
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).isChoose()) {
                             list.remove(i);
@@ -171,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
                                 "Выбранный фрагмент удалён",
                                 Toast.LENGTH_SHORT).show();
                     else {
-                        list.remove(list.size() - 1);
+                        list.remove(list.get(maxPos));
                         Toast.makeText(context,
                                 "Последний фрагмент удалён",
                                 Toast.LENGTH_SHORT).show();

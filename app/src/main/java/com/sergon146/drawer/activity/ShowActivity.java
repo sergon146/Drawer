@@ -143,7 +143,6 @@ public class ShowActivity extends ActionBarActivity {
 
         @Override
         public void run() {
-
             if (t < 1) {
                 t += 0.005;
                 lineChart.setList(record.getMorfList(t, index, backToTheFuture));
@@ -155,15 +154,14 @@ public class ShowActivity extends ActionBarActivity {
                 });
             } else {
                 if (backToTheFuture) {
+                    t = 0;
                     if (index < record.size() - 1)
                         index++;
                     else index = 0;
-                    t = 0;
                 } else {
                     if (index > 0)
                         index--;
                     else index = record.size() - 1;
-                    t = 0;
                 }
             }
         }
